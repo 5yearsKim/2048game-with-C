@@ -3,6 +3,13 @@
 #include <cstdlib>
 #include <ctime>
 
+/* Yonsei Electrical Engineering
+ * Made by Hyunu Kim
+ * everyone can use this code freely
+ * I won first prize for 코딩왕 경진대회(for Yonsei EE undergrad students) on 2019.10.31 :)
+ * sorry for showing off lol this code is just a shit
+ */
+
 using namespace std;
 
 /* print4x4 
@@ -28,6 +35,8 @@ void print4x4(int data[]) {
     cout << '\n' << line << '\n';
 }
 
+
+// generate number 2 with 90 percent, 4 with 10 percent
 int make_new(){
     if (rand()%100 < 10)
         return 4;
@@ -35,6 +44,7 @@ int make_new(){
         return 2;
 }
 
+// initialize game: start with 2 filled array among 16 blocks
 void init_game(int data[]){
     int index1, index2;
     index1 = rand()%16;
@@ -49,10 +59,12 @@ void init_game(int data[]){
     }
 }
 
+// move function
 void move_left(int data[]){
-    bool moved = false;
+    bool moved = false; // flag for invalid movement
     int new_idx = rand()%4;
     for (unsigned line = 0; line <4; line++){
+        //double number which can be overlapped 
         for (unsigned i = 4*line ; i < 4*line+4; i ++){
             for (unsigned j = i+1; j< 4*line + 4; j++){
                 if (data[j] == 0) continue;
@@ -67,20 +79,23 @@ void move_left(int data[]){
 
             }
         }
+        //move number to left side if there exists rooms
         for (unsigned k = 4*line; k < 4*line + 4; k++){
             if (!data[k]) continue;
             for (unsigned m = 4*line; m < k; m++){
                 if (data[m] == 0){
                     data[m] = data[k];
                     data[k] = 0;
-                    moved = true;
+                    moved = true; 
                 }
             }
         }
+        //add new number for each movement
         if (line == new_idx)
             if (!data[4*line+3])
                 data[4*line + 3] = make_new();
     }
+    //print message when there is no block to be moved
     if (!moved){
         cout<<"#############################\n#####invalid movement!#######\n############################"<<endl;
     }
@@ -122,6 +137,7 @@ void move_down(int data[]){
 
 }
 
+// return true when the player managed to make 2048
 bool check_2048(int data[]){
     for (unsigned i = 0; i<16; i++){
         if (data[i] >= 2048)
@@ -133,13 +149,14 @@ bool check_2048(int data[]){
 
 int main() {
     int data[16];
-
-    
-    srand(static_cast<unsigned int>(std::time(0)));
+    srand(static_cast<unsigned int>(std::time(0))); // get seed (time)
     char input;
     int key;
     init_game(data);
     print4x4(data);
+    // you can implement this function with Keyboard not using charactor in Windows.
+    // headerfile conio.h and function getch(), kbhit() helps to do this
+    // cannot implement easily with ubuntu though :(
     while(1){
         cout<<"up: u, down: d, left: l, right : r"<<endl;
         cin>> input;
@@ -155,6 +172,7 @@ int main() {
             init_game(data);
         print4x4(data);
 
+        //print congrats message when players managed to make 2048
         if (check_2048(data)){
             cout<<"congrats! you made 2048!"<<endl;
             break;
