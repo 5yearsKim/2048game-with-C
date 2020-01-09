@@ -7,3 +7,5 @@
     $ ./run
   
   
+Usage Video Link:
+https://github.com/5yearsKim/2048game-with-C
