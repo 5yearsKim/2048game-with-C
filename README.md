@@ -8,4 +8,4 @@
   
   
 Usage Video Link:
-https://github.com/5yearsKim/2048game-with-C
+https://www.youtube.com/watch?v=40fvd2VDi-s
